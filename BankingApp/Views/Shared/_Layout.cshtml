@@ -12,15 +12,8 @@
     <div class="navbar navbar-inverse navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <div class="navbar-header">
-                <h3>  @Html.ActionLink("Basic Banking App", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })  </h3>
+                <h3>  @Html.ActionLink("Basic Banking App", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })  </h3> 
             </div>
-            @if (Session["User"] != null)
-            {
-                <div class="navbar-nav me-auto">
-                    <h4 style="color:white">@Html.ActionLink("Logout", "Logout")</h4>
-                </div>
-            }
-
             <div class="navbar-collapse  collapse">
                 <ul class="nav navbar-nav">
                 </ul>

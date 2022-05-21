@@ -150,7 +150,6 @@
     <Compile Include="Models\BankDbContext.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
-    <Compile Include="Models\TransactionViewModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -188,7 +187,6 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Views\Shared\_Passbook.cshtml" />
-    <Content Include="Views\Shared\_Transact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
