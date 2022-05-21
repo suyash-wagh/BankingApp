@@ -1,0 +1,20 @@
+﻿@model BankingApp.Models.User
+
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <h2>Welcome @Model.Name.Split()[0]!</h2>
+            <h5>Balance: @Model.Balance</h5>
+        </div>
+        <div class="col-md-2" >
+            <h4 style="color:midnightblue">@Html.ActionLink("Logout", "Logout")</h4>
+        </div>
+    </div>
+</div>
+    
+
+
