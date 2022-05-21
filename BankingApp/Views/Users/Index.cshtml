@@ -11,19 +11,35 @@
             <h2>Welcome @Model.Name.Split()[0]!</h2>
             <h5>Balance: @Model.Balance</h5>
         </div>
-        <div class="col-md-2">
-            <h4 style="color:midnightblue">@Html.ActionLink("Logout", "Logout")</h4>
+        
+    </div>
+</div>
+
+@Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
+{
+    HttpMethod = "GET",
+    UpdateTargetId = "divPassbook",
+    InsertionMode = InsertionMode.Replace
+})
+
+@Ajax.ActionLink("Deposit/Withdraw", "Transact", new AjaxOptions()
+{
+    HttpMethod = "GET",
+    UpdateTargetId = "divTransaction",
+    InsertionMode = InsertionMode.Replace
+})
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div id="divPassbook"></div>
+        </div>
+        <div class="col-md-4">
+            <div id="divTransaction"></div>
         </div>
     </div>
-
-    @Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
-    {
-        HttpMethod = "GET",
-        UpdateTargetId = "divPassbook",
-        InsertionMode = InsertionMode.Replace
-    })
-    <div id="divPassbook"></div>
 </div>
+
 
 
 
