@@ -78,6 +78,14 @@ namespace BankingApp.Controllers
             }
             return RedirectToAction("Index",user);
         }
+ 
+        public PartialViewResult Passbook()
+        {
+            User user = Session["User"] as User;
+            List<Transaction> model = db.Transactions.Where(u=> u.Name == user.Name).ToList();
+            return PartialView("_Passbook", model);
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -85,12 +93,6 @@ namespace BankingApp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        public PartialViewResult Passbook()
-        {
-            List<Transaction> model = db.Transactions.ToList();
-            return PartialView("_Passbook", model);
         }
     }
 }
