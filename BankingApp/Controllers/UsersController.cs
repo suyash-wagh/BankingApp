@@ -95,29 +95,52 @@ namespace BankingApp.Controllers
         [HttpPost]
         public ActionResult Transact(TransactionViewModel transactionVM)
         {
-            User user = Session["User"] as User;
-            User userToModify = db.Users.Find(user.Id);
-            if (transactionVM.TransactionType == "D")
+            if (ModelState.IsValid)
             {
-                userToModify.Balance += transactionVM.Amount;
-            }
-            else
-            {
-                if (transactionVM.Amount < user.Balance - 500)
+                User user = Session["User"] as User;
+                User userToModify = db.Users.Find(user.Id);
+                if (transactionVM.TransactionType == "D")
                 {
-                    userToModify.Balance -= transactionVM.Amount;
+                    userToModify.Balance += transactionVM.Amount;
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Transaction Failed! Minimum remaining balance should be 500.");
-                    return RedirectToAction("Index", "Users");
+                    if (transactionVM.Amount < user.Balance - 500)
+                    {
+                        userToModify.Balance -= transactionVM.Amount;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Transaction Failed! Minimum remaining balance should be 500.");
+                        return RedirectToAction("Index", "Users");
+                    }
                 }
+                Transaction transaction = new Transaction(user, transactionVM.Amount, transactionVM.TransactionType);
+                Session["User"] = userToModify;
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Users");
             }
-            Transaction transaction = new Transaction(user, transactionVM.Amount, transactionVM.TransactionType);
-            Session["User"] = userToModify;
-            db.Transactions.Add(transaction);
-            db.SaveChanges();
-            return RedirectToAction("Index", "Users");
+            return View();
+        }
+
+        public void CsvDownload()
+        {
+            User user = Session["User"] as User;
+
+            StringWriter sw = new StringWriter();
+            sw.WriteLine("\"Name\",\"Date\",\"Amount\",\"Transaction Type\"");
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attchment;filename=${user} Passbook.csv");
+            Response.ContentType = ("text/csv");
+            List<Transaction> model = db.Transactions.Where(u => u.Name == user.Name).ToList();
+            foreach (var item in model)
+            {
+                sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\"", item.Name, item.Created, item.Amount, item.TransactionType));
+
+            }
+            Response.Write(sw.ToString());
+            Response.End();
         }
 
         protected override void Dispose(bool disposing)
@@ -127,25 +150,6 @@ namespace BankingApp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        public void CsvDownload()
-        {
-            User user = Session["User"] as User;
-
-            StringWriter sw = new StringWriter();
-            sw.WriteLine("\"Name\",\"Date\",\"Amount\",\"Transaction Type\"");
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attchment;filename=${user} Passbook.csv");
-            Response.ContentType=("text/csv");
-            List<Transaction> model = db.Transactions.Where(u => u.Name == user.Name).ToList();
-            foreach (var item in model)
-            {
-                sw.WriteLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\"", item.Name, item.Created, item.Amount, item.TransactionType));
-
-            }
-            Response.Write(sw.ToString());
-            Response.End();
-
         }
     }
 }

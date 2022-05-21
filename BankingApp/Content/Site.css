@@ -1,8 +1,18 @@
-﻿body {
+﻿.all {
     padding-top: 50px;
     padding-bottom: 20px;
+    background: #eee4e3;
+    height: 100vh;
+    font-family: Poppins;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
+document {
+    background-color: black;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -16,3 +26,83 @@ textarea {
     max-width: 280px;
 }
 
+.hidden {
+    display: none;
+}
+
+.transact {
+    padding: 30px;
+    background-color: white;
+    border-radius: 20px;
+    align-content: center;
+    display: flex;
+    height: 100%;
+    width: 300px;
+    margin-left: 50px;
+    flex-direction: column;
+}
+
+.btnS {
+    background-color: #C81D25;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    margin: 10px;
+    margin-top: 10px;
+    text-decoration: unset;
+    box-shadow: 5px 5px 20px #5701013a;
+    border-style: none;
+}
+
+    .btnS:hover {
+        background-color: #ac131a;
+        color: white;
+    }
+
+.index {
+    background-color: white;
+    padding: 30px;
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.links {
+    display: flex;
+}
+
+.title {
+    color: #C81D25;
+    font-weight: 900;
+    text-shadow: 4px 6px 1px white;
+}
+
+.userName {
+    color: #C81D25;
+    font-weight: 700;
+    text-shadow: 4px 6px 1px white;
+}
+
+.indexHead {
+    padding: 40px;
+}
+
+.balance {
+    color: #C81D25;
+    font-weight: 400;
+}
+
+.checks {
+    margin: 10px;
+}
+
+.loginForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}

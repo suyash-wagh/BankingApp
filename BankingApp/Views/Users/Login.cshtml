@@ -4,14 +4,16 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Login</h2>
 
-@using (Html.BeginForm("Login", "Users", FormMethod.Post)) 
+
+@using (Html.BeginForm("Login", "Users", FormMethod.Post))
 {
     @*@Html.AntiForgeryToken()*@
-    
-    <div class="form-horizontal">
-        <hr />
+
+    <div class="loginForm">
+
+        <div class="title">  Login </div>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -29,14 +31,11 @@
             </div>
         </div>
         <br>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-        </div>
+        <input type="submit" value="Login" class="btn btn-primary" />
+        @Html.ActionLink("New User? Sign Up!", "SignUp", "Users")
     </div>
+
+
 }
 <br>
-<div>
-    @Html.ActionLink("New User? Sign Up!", "SignUp","Users")
-</div>
+

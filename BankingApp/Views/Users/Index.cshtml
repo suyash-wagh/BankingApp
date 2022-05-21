@@ -5,53 +5,59 @@
 }
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<div class="container">
+<script type="text/javascript">
+    function onSuccess() {
+        $(".download").removeClass("hidden")
+    }
+</script>
+
+
+<div class="indexHead">
     <div class="row">
         <div class="col-md-10">
-            <h2>Welcome @Model.Name.Split()[0]!</h2>
-            <h5>Balance: @Model.Balance</h5>
+            <h2>Welcome <span class="userName"> @Model.Name.Split()[0] </span>!</h2>
+            <h5>Balance: <span class="balance">₹@Model.Balance</span></h5>
         </div>
-        
+        <div class="col-md-2">
+            @if (Session["User"] != null)
+            {
+                @Html.ActionLink("Logout", "Logout", null, new { @class = "btnS" })
+            }
+        </div>
     </div>
 </div>
+<div class="index">
+    <div class="links">
+        @Ajax.ActionLink("View Passbook", "Passbook", "Users", new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            UpdateTargetId = "divPassbook",
+            InsertionMode = InsertionMode.Replace,
+            OnSuccess = "onSuccess"
+            }, new { @class = "btnS" })
 
-    @Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
-    {
-        HttpMethod = "GET",
-        UpdateTargetId = "divPassbook",
-        InsertionMode = InsertionMode.Replace
-    })
+        @Ajax.ActionLink("Deposit/Withdraw", "Transact", "Users", new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            UpdateTargetId = "divTransaction",
+            InsertionMode = InsertionMode.Replace
+        }, new { @class = "btnS" })
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div id="divPassbook"></div>
 
-    <div id="divPassbook"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="divTransaction"></div>
+            </div>
+        </div>
+    </div>
+
     <div>
-        @Html.ActionLink("Download", "CsvDownload")
+        @Html.ActionLink("Download", "CsvDownload", null, new { @class = "download hidden" })
     </div>
 </div>
-@Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
-{
-    HttpMethod = "GET",
-    UpdateTargetId = "divPassbook",
-    InsertionMode = InsertionMode.Replace
-})
-
-@Ajax.ActionLink("Deposit/Withdraw", "Transact", new AjaxOptions()
-{
-    HttpMethod = "GET",
-    UpdateTargetId = "divTransaction",
-    InsertionMode = InsertionMode.Replace
-})
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div id="divPassbook"></div>
-        </div>
-        <div class="col-md-4">
-            <div id="divTransaction"></div>
-        </div>
-    </div>
-</div>
-
-
 
 

@@ -8,33 +8,13 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <div class="navbar-header">
-                <h3>  @Html.ActionLink("Basic Banking App", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })  </h3>
-            </div>
-            @if (Session["User"] != null)
-            {
-                <div class="navbar-nav me-auto">
-                    <h4 style="color:white">@Html.ActionLink("Logout", "Logout")</h4>
-                </div>
-            }
+<body class="all">
 
-            <div class="navbar-collapse  collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
-    <br>
+    <h2 class="title"> Basic Banking App</h2>
 
-    <div class="container body-content">
+
+    <div class="container">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Basic Banking App by Suyash and Ujjay</p>
-        </footer>
     </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
