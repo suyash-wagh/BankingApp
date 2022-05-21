@@ -37,18 +37,18 @@ namespace BankingApp.Controllers
         {
             //if (Session.IsNewSession)
             //{
-                if (ModelState.IsValid)
-                {
-                    bool isUser = db.Users.Any(u => u.Id == UserVM.Id && u.Password == UserVM.Password);
+            if (ModelState.IsValid)
+            {
+                bool isUser = db.Users.Any(u => u.Id == UserVM.Id && u.Password == UserVM.Password);
 
-                    if (isUser)
-                    {
-                        User userFromStore = db.Users.Find(UserVM.Id);
-                        Session["User"] = userFromStore;
-                        return RedirectToAction("Index", "Users");
-                    }
-                    ModelState.AddModelError("", "Wrong Credentials.");
+                if (isUser)
+                {
+                    User userFromStore = db.Users.Find(UserVM.Id);
+                    Session["User"] = userFromStore;
+                    return RedirectToAction("Index", "Users");
                 }
+                ModelState.AddModelError("", "Wrong Credentials.");
+            }
             //}
             return View();
         }
@@ -76,16 +76,49 @@ namespace BankingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Login");
             }
-            return RedirectToAction("Index",user);
+            return RedirectToAction("Index", user);
         }
- 
+
         public PartialViewResult Passbook()
         {
             User user = Session["User"] as User;
-            List<Transaction> model = db.Transactions.Where(u=> u.Name == user.Name).ToList();
+            List<Transaction> model = db.Transactions.Where(u => u.Name == user.Name).ToList();
             return PartialView("_Passbook", model);
         }
-        
+
+        public PartialViewResult Transact()
+        {
+            return PartialView("_Transact");
+        }
+
+        [HttpPost]
+        public ActionResult Transact(TransactionViewModel transactionVM)
+        {
+            User user = Session["User"] as User;
+            User userToModify = db.Users.Find(user.Id);
+            if (transactionVM.TransactionType == "D")
+            {
+                userToModify.Balance += transactionVM.Amount;
+            }
+            else
+            {
+                if (transactionVM.Amount < user.Balance - 500)
+                {
+                    userToModify.Balance -= transactionVM.Amount;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Transaction Failed! Minimum remaining balance should be 500.");
+                    return RedirectToAction("Index", "Users");
+                }
+            }
+            Transaction transaction = new Transaction(user, transactionVM.Amount, transactionVM.TransactionType);
+            Session["User"] = userToModify;
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Users");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
