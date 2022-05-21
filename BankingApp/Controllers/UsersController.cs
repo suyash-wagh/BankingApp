@@ -86,5 +86,11 @@ namespace BankingApp.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public PartialViewResult Passbook()
+        {
+            List<Transaction> model = db.Transactions.ToList();
+            return PartialView("_Passbook", model);
+        }
     }
 }
