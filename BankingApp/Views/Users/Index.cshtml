@@ -15,6 +15,18 @@
     </div>
 </div>
 
+    @Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "divPassbook",
+        InsertionMode = InsertionMode.Replace
+    })
+
+    <div id="divPassbook"></div>
+    <div>
+        @Html.ActionLink("Download", "CsvDownload")
+    </div>
+</div>
 @Ajax.ActionLink("View Passbook", "Passbook", new AjaxOptions()
 {
     HttpMethod = "GET",
