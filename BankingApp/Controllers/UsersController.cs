@@ -127,11 +127,11 @@ namespace BankingApp.Controllers
         public void CsvDownload()
         {
             User user = Session["User"] as User;
-
+            string filename = $"{user.Name}'s Passbook {DateTime.Now:dd-MM-yyyy}.csv";
             StringWriter sw = new StringWriter();
             sw.WriteLine("\"Name\",\"Date\",\"Amount\",\"Transaction Type\"");
             Response.ClearContent();
-            Response.AddHeader("content-disposition", "attchment;filename=${user} Passbook.csv");
+            Response.AddHeader("content-disposition", $"attchment;filename={filename} ");
             Response.ContentType = ("text/csv");
             List<Transaction> model = db.Transactions.Where(u => u.Name == user.Name).ToList();
             foreach (var item in model)

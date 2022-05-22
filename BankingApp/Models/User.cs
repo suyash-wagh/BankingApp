@@ -15,6 +15,7 @@ namespace BankingApp.Models
         public string Name { get; set; }
         
         [Required(ErrorMessage = "Initial Balance is required to register.")]
+        [Range(0.0, Int32.MaxValue, ErrorMessage = "The field {0} must be greater than {1}.")]
         public double Balance { get; set; }
         
         [Required(ErrorMessage = "Password is required")]
