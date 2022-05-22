@@ -8,7 +8,11 @@
 <script type="text/javascript">
     function onSuccess() {
         $(".download").removeClass("hidden")
+        $(".btn ps").click(function () {
+            $("#divTransaction").fadeIn(slow);
+        });
     }
+   
 </script>
 
 
@@ -34,7 +38,7 @@
             UpdateTargetId = "divPassbook",
             InsertionMode = InsertionMode.Replace,
             OnSuccess = "onSuccess"
-            }, new { @class = "btnS" })
+            }, new { @class = "btnS ps" })
 
         @Ajax.ActionLink("Deposit/Withdraw", "Transact", "Users", new AjaxOptions()
         {

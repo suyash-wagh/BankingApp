@@ -18,8 +18,7 @@ namespace BankingApp.Models
         public double Balance { get; set; }
         
         [Required(ErrorMessage = "Password is required")]
-        [DataType(DataType.Password)]
-        [StringLength(10, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

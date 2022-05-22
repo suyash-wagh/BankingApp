@@ -146,6 +146,10 @@
     <Compile Include="Migrations\202205210606064_initialCreationV3.designer.cs">
       <DependentUpon>202205210606064_initialCreationV3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205221823542_initialCreationV5.cs" />
+    <Compile Include="Migrations\202205221823542_initialCreationV5.designer.cs">
+      <DependentUpon>202205221823542_initialCreationV5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankDbContext.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -154,6 +158,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Hasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -208,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205210606064_initialCreationV3.resx">
       <DependentUpon>202205210606064_initialCreationV3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205221823542_initialCreationV5.resx">
+      <DependentUpon>202205221823542_initialCreationV5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

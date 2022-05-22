@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BankingApp.Models;
+using BankingApp.Services;
 
 namespace BankingApp.Controllers
 {
@@ -36,11 +37,10 @@ namespace BankingApp.Controllers
         [HttpPost]
         public ActionResult Login(UserLoginViewModel UserVM)
         {
-            //if (Session.IsNewSession)
-            //{
             if (ModelState.IsValid)
             {
-                bool isUser = db.Users.Any(u => u.Id == UserVM.Id && u.Password == UserVM.Password);
+                string userPass = UserVM.Password.Cipher();
+                bool isUser = db.Users.Any(u => u.Id == UserVM.Id && u.Password == userPass);
 
                 if (isUser)
                 {
@@ -50,7 +50,6 @@ namespace BankingApp.Controllers
                 }
                 ModelState.AddModelError("", "Wrong Credentials.");
             }
-            //}
             return View();
         }
 
@@ -69,14 +68,19 @@ namespace BankingApp.Controllers
         [HttpPost]
         public ActionResult SignUp(User user)
         {
-            if (Session["User"] == null)
+            if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                Transaction transaction = new Transaction(user, user.Balance, "D");
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
-                return RedirectToAction("Login");
+                if (Session["User"] == null)
+                {
+                    User userEncrypted = new User() { Balance = user.Balance, Name = user.Name, Password = user.Password.Cipher() };
+                    db.Users.Add(userEncrypted);
+                    Transaction transaction = new Transaction(user, user.Balance, "D");
+                    db.Transactions.Add(transaction);
+                    db.SaveChanges();
+                    return RedirectToAction("Login");
+                }
             }
+            ModelState.AddModelError("", "Enter details.");
             return RedirectToAction("Index", user);
         }
 
