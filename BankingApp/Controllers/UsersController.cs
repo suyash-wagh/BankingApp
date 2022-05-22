@@ -69,15 +69,18 @@ namespace BankingApp.Controllers
         [HttpPost]
         public ActionResult SignUp(User user)
         {
-            if (Session["User"] == null)
+            
+            if (ModelState.IsValid)
             {
                 db.Users.Add(user);
                 Transaction transaction = new Transaction(user, user.Balance, "D");
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
+                //ModelState.AddModelError("",$"Your Id Is {user.Id}");
                 return RedirectToAction("Login");
             }
-            return RedirectToAction("Index", user);
+            return View();
+          
         }
 
         public PartialViewResult Passbook()
@@ -121,7 +124,9 @@ namespace BankingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Users");
             }
-            return View();
+            //return RedirectToAction("Index", "Users");
+            ModelState.AddModelError("", "Please Enter Amount");
+            return View("_Transact");
         }
 
         public void CsvDownload()
