@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BankingApp.Models;
-using BankingApp.Services;
+using BankingApp.Service;
 
 namespace BankingApp.Controllers
 {
@@ -72,17 +72,18 @@ namespace BankingApp.Controllers
             {
                 if (Session["User"] == null)
                 {
-                    User userEncrypted = new User() { Balance = user.Balance, Name = user.Name, Password = user.Password.Cipher() };
-                    db.Users.Add(userEncrypted);
-
-                Transaction transaction = new Transaction(user, user.Balance, "D");
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
-
-                return RedirectToAction("Login");
+                    user.Password = user.Password.Cipher();
+                    db.Users.Add(user);
+                    Transaction transaction = new Transaction(user, user.Balance, "D");
+                    db.Transactions.Add(transaction);
+                    
+                    db.SaveChanges();
+                    ViewBag.SuccessStatus = true;
+                    ViewBag.Message = "Your login ID is "+(db.Users.Count()-1);
+                    return View();
+                }
             }
             return View();
-          
         }
 
         public PartialViewResult Passbook()
@@ -126,9 +127,11 @@ namespace BankingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Users");
             }
-            //return RedirectToAction("Index", "Users");
-            ModelState.AddModelError("", "Please Enter Amount");
-            return View("_Transact");
+            else
+            {
+                ModelState.AddModelError("", "Please Enter Amount");
+            }
+            return RedirectToAction("Index", "Users");
         }
 
         public void CsvDownload()
