@@ -13,7 +13,7 @@
             @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" }, placeholder = "Amount" })
         </div>
         <div class="form-check">
-            @Html.RadioButtonFor(m => m.TransactionType, "D", new { htmlAttributes = new { @class = "checkst" } })
+            @Html.RadioButtonFor(m => m.TransactionType, "D", new { @checked = "checked" })
             <label class="form-check-label" for="transactionRadio1"> Deposit </label>
 
             @Html.RadioButtonFor(m => m.TransactionType, "W", new { htmlAttributes = new { @class = "checks" } })

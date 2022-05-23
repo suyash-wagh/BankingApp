@@ -74,14 +74,15 @@ namespace BankingApp.Controllers
                 {
                     User userEncrypted = new User() { Balance = user.Balance, Name = user.Name, Password = user.Password.Cipher() };
                     db.Users.Add(userEncrypted);
-                    Transaction transaction = new Transaction(user, user.Balance, "D");
-                    db.Transactions.Add(transaction);
-                    db.SaveChanges();
-                    return RedirectToAction("Login");
-                }
+
+                Transaction transaction = new Transaction(user, user.Balance, "D");
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+
+                return RedirectToAction("Login");
             }
-            ModelState.AddModelError("", "Enter details.");
-            return RedirectToAction("Index", user);
+            return View();
+          
         }
 
         public PartialViewResult Passbook()
@@ -125,17 +126,19 @@ namespace BankingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Users");
             }
-            return View();
+            //return RedirectToAction("Index", "Users");
+            ModelState.AddModelError("", "Please Enter Amount");
+            return View("_Transact");
         }
 
         public void CsvDownload()
         {
             User user = Session["User"] as User;
-
+            string filename = $"{user.Name}'s Passbook {DateTime.Now:dd-MM-yyyy}.csv";
             StringWriter sw = new StringWriter();
             sw.WriteLine("\"Name\",\"Date\",\"Amount\",\"Transaction Type\"");
             Response.ClearContent();
-            Response.AddHeader("content-disposition", "attchment;filename=${user} Passbook.csv");
+            Response.AddHeader("content-disposition", $"attchment;filename={filename} ");
             Response.ContentType = ("text/csv");
             List<Transaction> model = db.Transactions.Where(u => u.Name == user.Name).ToList();
             foreach (var item in model)
